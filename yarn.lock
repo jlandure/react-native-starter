@@ -7400,6 +7400,13 @@ react-native-modal@^9.0.0:
     prop-types "^15.6.2"
     react-native-animatable "^1.2.4"
 
+react-native-onboarding-swiper@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-onboarding-swiper/-/react-native-onboarding-swiper-1.1.1.tgz#b604294964f56c0c7e9d0ed7f3dcd2d24880dd92"
+  integrity sha512-u4Y8s5P3B3t/WsSK1AMbBbVqVRnhiEA9yBmRxRhMYb0JVBQ/V2NQBC04RU97qfLWrArWKjRGr8pLN8y5M6f/LQ==
+  dependencies:
+    tinycolor2 "^1.4.1"
+
 react-native-paper@^3.1.1:
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-3.8.0.tgz#94d9b50b945ce91c90491cce34d1c27845503990"
