@@ -1,18 +1,55 @@
 import { Provider } from 'react-redux';
+import 'react-native-gesture-handler';
 import React from 'react';
-import { View, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, ActivityIndicator, StyleSheet, Text } from 'react-native';
 import { PersistGate } from 'redux-persist/integration/react';
 import { NavigationContainer } from '@react-navigation/native';
 import { colors } from './src/styles';
 
 import { store, persistor } from './src/redux/store';
+import firebase from '@react-native-firebase/app';
+import analytics from '@react-native-firebase/analytics';
 
 import AppView from './src/modules/AppViewContainer';
 
+analytics().logAppOpen();
+// Gets the current screen from navigation state
+const getActiveRouteName = state => {
+  const route = state.routes[state.index];
+
+  if (route && route.state) {
+    // Dive into nested navigators
+    return getActiveRouteName(route.state);
+  }
+
+  return route.name;
+};
 export default function App() {
+  const routeNameRef = React.useRef();
+  const navigationRef = React.useRef();
+  const state = { routes: [] };
+  React.useEffect(() => {
+    //const state = navigationRef.current.getRootState();
+    console.log('state=>' + state);
+    // Save the initial route name
+    routeNameRef.current = 'Home'; //getActiveRouteName(state);
+  }, []);
   return (
     <Provider store={store}>
-      <NavigationContainer>
+      {firebase.apps.length && <Text style={styles.module}>app()</Text>}
+      {analytics().native && <Text style={styles.module}>analytics()</Text>}
+      <NavigationContainer
+        ref={navigationRef}
+        onStateChange={state => {
+          console.log('screen_view' + JSON.stringify(state));
+          const previousRouteName = routeNameRef.current;
+          const currentRouteName = getActiveRouteName(state);
+
+          if (previousRouteName !== currentRouteName) {
+            analytics().setCurrentScreen(currentRouteName, currentRouteName);
+          }
+        }}
+      >
         <PersistGate
           loading={
             // eslint-disable-next-line react/jsx-wrap-multilines

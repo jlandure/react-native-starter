@@ -14,7 +14,7 @@ import { Button } from '../../components';
 export default function AvailableInFullVersionScreen(props) {
   const rnsUrl = 'https://reactnativestarter.com';
   const handleClick = () => {
-    Linking.canOpenURL(rnsUrl).then(supported => {
+    Linking.canOpenURL(rnsUrl).then((supported) => {
       if (supported) {
         Linking.openURL(rnsUrl);
       } else {
@@ -40,15 +40,6 @@ export default function AvailableInFullVersionScreen(props) {
       </View>
 
       <View style={styles.buttonsContainer}>
-        <Button
-          large
-          secondary
-          rounded
-          style={styles.button}
-          caption="Purchase Now"
-          onPress={() => handleClick()}
-        />
-
         <Button
           large
           bordered

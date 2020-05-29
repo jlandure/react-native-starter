@@ -11,6 +11,7 @@ import {
 import { fonts, colors, changeTheme } from '../../styles';
 import { Text } from '../../components/StyledText';
 import Onboarding from 'react-native-onboarding-swiper';
+import analytics from '@react-native-firebase/analytics';
 
 const imgBlue = require('../../../assets/images/background.png');
 const imgRed = require('../../../assets/images/avatar.png');
@@ -29,10 +30,16 @@ export default class HomeScreen extends Component {
       image: newTheme.theme === 'red' ? imgRed : imgBlue,
       theme: newTheme,
     });
+    analytics().logEvent('changingTheme', {
+      prefered: newTheme.theme,
+    });
+    analytics().setUserProperties({
+      favorite_theme: newTheme.theme,
+    });
   };
   rnsUrl = 'https://zenika.com';
   handleClick = () => {
-    Linking.canOpenURL(this.rnsUrl).then(supported => {
+    Linking.canOpenURL(this.rnsUrl).then((supported) => {
       if (supported) {
         Linking.openURL(this.rnsUrl);
       } else {
@@ -41,8 +48,15 @@ export default class HomeScreen extends Component {
     });
   };
   onDone = () => {
+    console.log('first_open');
+    analytics().logEvent('onboarding_done', {
+      steps: '3',
+    });
     this.setState({
       isFirstTime: false,
+    });
+    analytics().setUserProperties({
+      favorite_theme: this.state.theme.theme,
     });
   };
 

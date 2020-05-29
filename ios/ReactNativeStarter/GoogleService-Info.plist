@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>978994364439-d42o3krh9lcqh3tq191a9dvnet6nl9hj.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.978994364439-d42o3krh9lcqh3tq191a9dvnet6nl9hj</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCKUO3aAqlYOWfpM5lX0J1IPu8NseQWL8g</string>
+	<key>GCM_SENDER_ID</key>
+	<string>978994364439</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.rnfbdemo</string>
+	<key>PROJECT_ID</key>
+	<string>fir-app-react-native-9c733</string>
+	<key>STORAGE_BUCKET</key>
+	<string>fir-app-react-native-9c733.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<true/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:978994364439:ios:d63ab265af6b31da77dc52</string>
+	<key>DATABASE_URL</key>
+	<string>https://fir-app-react-native-9c733.firebaseio.com</string>
+</dict>
+</plist>
