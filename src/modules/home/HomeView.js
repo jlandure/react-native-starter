@@ -1,75 +1,98 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
   TouchableOpacity,
   ImageBackground,
+  Linking,
 } from 'react-native';
 
-import { fonts, colors } from '../../styles';
+import { fonts, colors, changeTheme } from '../../styles';
 import { Text } from '../../components/StyledText';
 
-export default function HomeScreen({ isExtended, setIsExtended }) {
-  // const rnsUrl = 'https://reactnativestarter.com';
-  // const handleClick = () => {
-  //   Linking.canOpenURL(rnsUrl).then(supported => {
-  //     if (supported) {
-  //       Linking.openURL(rnsUrl);
-  //     } else {
-  //       console.log(`Don't know how to open URI: ${rnsUrl}`);
-  //     }
-  //   });
-  // };
+const imgBlue = require('../../../assets/images/background.png');
+const imgRed = require('../../../assets/images/avatar.png');
 
-  return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require('../../../assets/images/background.png')}
-        style={styles.bgImage}
-        resizeMode="cover"
-      >
-        <View style={styles.section}>
-          <Text size={20} white>
-            Home
-          </Text>
-        </View>
-        <View style={styles.section}>
-          <Text color="#19e7f7" size={15}>
-            The smartest Way to build your mobile app
-          </Text>
-          <Text size={30} bold white style={styles.title}>
-            React Native Starter
-          </Text>
-        </View>
-        <View style={[styles.section, styles.sectionLarge]}>
-          <Text color="#19e7f7" hCenter size={15} style={styles.description}>
-            {' '}
-            A powerful starter project that bootstraps development of your
-            mobile application and saves you $20 000*
-          </Text>
-          <View style={styles.priceContainer}>
-            <View style={{ flexDirection: 'row' }}>
-              <Text white bold size={50} style={styles.price}>
-                {isExtended ? '$199.95' : '$49.95'}
-              </Text>
-            </View>
-            <TouchableOpacity
-              style={styles.priceLink}
-              onPress={() =>
-                isExtended ? setIsExtended(false) : setIsExtended(true)
-              }
-            >
-              <Text white size={14}>
-                {isExtended
-                  ? 'Multiple Applications License'
-                  : 'Single Application License'}
-              </Text>
-            </TouchableOpacity>
+export default class HomeScreen extends Component {
+  state = {
+    image: imgBlue,
+    theme: colors,
+  };
+
+  changeTheme = () => {
+    const newTheme = changeTheme(this.state.theme);
+    console.log('hello ju' + newTheme.primary);
+    this.setState({
+      image: newTheme.theme === 'red' ? imgRed : imgBlue,
+      theme: newTheme,
+    });
+  };
+  rnsUrl = 'https://zenika.com';
+  handleClick = () => {
+    Linking.canOpenURL(this.rnsUrl).then(supported => {
+      if (supported) {
+        Linking.openURL(this.rnsUrl);
+      } else {
+        console.log(`Don't know how to open URI: ${this.rnsUrl}`);
+      }
+    });
+  };
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <ImageBackground
+          source={this.state.image}
+          style={styles.bgImage}
+          resizeMode="cover"
+        >
+          <View style={styles.section}>
+            <Text size={20} white>
+              Home
+            </Text>
           </View>
-        </View>
-      </ImageBackground>
-    </View>
-  );
+          <View style={styles.section}>
+            <Text color="#19e7f7" size={15}>
+              The smartest Way to build your mobile app
+            </Text>
+            <Text size={30} bold white style={styles.title}>
+              demo-app-react-native
+            </Text>
+          </View>
+          <View style={[styles.section, styles.sectionLarge]}>
+            <Text color="#19e7f7" hCenter size={15} style={styles.description}>
+              {' '}
+              demo-app-react-native to showcase Firebase
+            </Text>
+            <View style={styles.priceContainer}>
+              <View style={{ flexDirection: 'row' }}>
+                <Text white bold size={50} style={styles.price}>
+                  Welcome!
+                </Text>
+                {/* {isExtended ? '$199.95' : '$49.95'} */}
+              </View>
+              <TouchableOpacity
+                style={styles.priceLink}
+                onPress={this.handleClick}
+              >
+                <Text white size={14}>
+                  zenika.com
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.priceLink}
+                onPress={this.changeTheme}
+              >
+                <Text white size={14}>
+                  Change theme
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ImageBackground>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -117,5 +140,6 @@ const styles = StyleSheet.create({
   priceLink: {
     borderBottomWidth: 1,
     borderBottomColor: colors.primary,
+    marginTop: 10,
   },
 });
