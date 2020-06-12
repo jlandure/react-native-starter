@@ -1,11 +1,11 @@
 import { StyleSheet, StatusBar, Platform } from 'react-native';
 
-import colors from './colors';
+import { blueVersion } from './colors';
 
 export default StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: colors.white,
+    backgroundColor: blueVersion.white,
     paddingTop: Platform.select({ ios: 0, android: StatusBar.currentHeight }),
   },
 });

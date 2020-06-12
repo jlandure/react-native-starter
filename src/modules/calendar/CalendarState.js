@@ -1,3 +1,5 @@
+import analytics from '@react-native-firebase/analytics';
+
 const ITEMS_LOADED = 'CalendarState/ITEMS_LOADED';
 
 function itemsLoaded(items) {
@@ -36,11 +38,16 @@ export function loadItems(day) {
     }
 
     const newItems = {};
-    Object.keys(items).forEach(key => {
+    let totalItems = 0;
+    Object.keys(items).forEach((key) => {
+      totalItems += 1;
       newItems[key] = items[key];
     });
 
-    console.log(newItems);
+    analytics().logEvent('loadingCalendar', {
+      nb_items: totalItems,
+    });
+    console.log('loadingCalendar>' + totalItems);
 
     dispatch(itemsLoaded(newItems));
   };

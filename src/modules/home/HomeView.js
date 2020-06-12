@@ -8,10 +8,11 @@ import {
   Linking,
 } from 'react-native';
 
-import { fonts, colors, changeTheme } from '../../styles';
+import { fonts, getTheme, changeTheme } from '../../styles';
 import { Text } from '../../components/StyledText';
 import Onboarding from 'react-native-onboarding-swiper';
 import analytics from '@react-native-firebase/analytics';
+import remoteConfig from '@react-native-firebase/remote-config';
 
 const imgBlue = require('../../../assets/images/background.png');
 const imgRed = require('../../../assets/images/avatar.png');
@@ -19,22 +20,31 @@ const imgRed = require('../../../assets/images/avatar.png');
 export default class HomeScreen extends Component {
   state = {
     image: imgBlue,
-    theme: colors,
+    theme: getTheme(),
     isFirstTime: true,
+    awesomeTitle: remoteConfig().getValue('awesome_title').value,
   };
 
+  reload = () => {
+    this.setState({
+      awesomeTitle: remoteConfig().getValue('awesome_title').value,
+    });
+  };
   changeTheme = () => {
     const newTheme = changeTheme(this.state.theme);
-    console.log('hello ju' + newTheme.primary);
-    this.setState({
-      image: newTheme.theme === 'red' ? imgRed : imgBlue,
-      theme: newTheme,
-    });
+    console.log('hello Theme>' + newTheme.name);
     analytics().logEvent('changingTheme', {
-      prefered: newTheme.theme,
+      prefered: newTheme.name,
     });
     analytics().setUserProperties({
-      favorite_theme: newTheme.theme,
+      favorite_theme: newTheme.name,
+    });
+    const awesomeNewFeature = remoteConfig().getValue('awesome_title');
+    console.log('Remote Config>' + JSON.stringify(awesomeNewFeature));
+    this.setState({
+      image: newTheme.name === 'red' ? imgRed : imgBlue,
+      theme: newTheme,
+      awesomeTitle: awesomeNewFeature.value,
     });
   };
   rnsUrl = 'https://zenika.com';
@@ -54,9 +64,6 @@ export default class HomeScreen extends Component {
     });
     this.setState({
       isFirstTime: false,
-    });
-    analytics().setUserProperties({
-      favorite_theme: this.state.theme.theme,
     });
   };
 
@@ -114,7 +121,7 @@ export default class HomeScreen extends Component {
               </Text>
             </View>
             <View style={styles.section}>
-              <Text color="#19e7f7" size={15}>
+              <Text color={this.state.theme.primaryGradientEnd} size={15}>
                 The smartest Way to build your mobile app
               </Text>
               <Text size={30} bold white style={styles.title}>
@@ -123,13 +130,13 @@ export default class HomeScreen extends Component {
             </View>
             <View style={[styles.section, styles.sectionLarge]}>
               <Text
-                color="#19e7f7"
+                color={this.state.theme.primaryGradientEnd}
                 hCenter
                 size={15}
                 style={styles.description}
               >
                 {' '}
-                demo-app-react-native to showcase Firebase
+                {this.state.awesomeTitle}
               </Text>
               <View style={styles.priceContainer}>
                 <View style={{ flexDirection: 'row' }}>
@@ -152,6 +159,14 @@ export default class HomeScreen extends Component {
                 >
                   <Text white size={14}>
                     Change theme
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.priceLink}
+                  onPress={this.reload}
+                >
+                  <Text white size={14}>
+                    Reload
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -207,7 +222,7 @@ const styles = StyleSheet.create({
   },
   priceLink: {
     borderBottomWidth: 1,
-    borderBottomColor: colors.primary,
+    borderBottomColor: getTheme().primary,
     marginTop: 10,
   },
 });

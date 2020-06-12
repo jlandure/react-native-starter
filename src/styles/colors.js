@@ -1,5 +1,5 @@
 const blueVersion = {
-  theme: 'blue',
+  name: 'blue',
   primary: '#555CC4',
   primaryLight: '#829BF8',
   primaryGradientStart: '#4f44b6',
@@ -21,7 +21,7 @@ const blueVersion = {
   yellow: '#ffc247',
 };
 const redVersion = {
-  theme: 'red',
+  name: 'red',
   primary: '#f00504',
   primaryLight: '#f00504',
   primaryGradientStart: '#f0040b',
@@ -43,4 +43,4 @@ const redVersion = {
   yellow: '#ffc247',
 };
 
-export { blueVersion as default, redVersion };
+export { blueVersion, redVersion };

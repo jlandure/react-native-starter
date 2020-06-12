@@ -4,7 +4,7 @@
 import { Typography, Colors, Assets } from 'react-native-ui-lib';
 import { Dimensions, Platform } from 'react-native';
 
-import colors, { blueVersion, redVersion } from './colors';
+import { blueVersion, redVersion } from './colors';
 import fonts from './fonts';
 import commonStyles from './common';
 
@@ -13,16 +13,18 @@ const { width } = Dimensions.get('window');
 // Guideline sizes are based on standard ~5" screen mobile device
 const guidelineBaseWidth: number = 350;
 
-const changeTheme = currentTheme => {
-  console.log('changeTheme before>' + currentTheme.theme);
-  currentTheme === redVersion
-    ? (currentTheme = blueVersion)
-    : (currentTheme = redVersion);
-  console.log('changeTheme after>' + currentTheme.theme);
-  Colors.loadColors(currentTheme);
-  return currentTheme;
+console.log(
+  'blueVersion>' + blueVersion.name + ' || redVersion>' + redVersion.name,
+);
+
+let colors = blueVersion;
+const getTheme = () => colors;
+const changeTheme = () => {
+  colors.name === 'red' ? (colors = blueVersion) : (colors = redVersion);
+  Colors.loadColors(colors);
+  return colors;
 };
-Colors.loadColors(colors);
+Colors.loadColors(blueVersion);
 
 Typography.loadTypographies({
   title: {
@@ -133,4 +135,4 @@ Assets.loadAssetsGroup('icons', {});
 
 const scale = (size: number): number => (width / guidelineBaseWidth) * size;
 
-export { colors, changeTheme, fonts, scale, commonStyles };
+export { colors, getTheme, changeTheme, fonts, scale, commonStyles };

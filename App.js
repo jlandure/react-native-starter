@@ -9,12 +9,13 @@ import { colors } from './src/styles';
 import { store, persistor } from './src/redux/store';
 import firebase from '@react-native-firebase/app';
 import analytics from '@react-native-firebase/analytics';
+import remoteConfig from '@react-native-firebase/remote-config';
 
 import AppView from './src/modules/AppViewContainer';
 
 analytics().logAppOpen();
 // Gets the current screen from navigation state
-const getActiveRouteName = state => {
+const getActiveRouteName = (state) => {
   const route = state.routes[state.index];
 
   if (route && route.state) {
@@ -30,18 +31,35 @@ export default function App() {
   const state = { routes: [] };
   React.useEffect(() => {
     //const state = navigationRef.current.getRootState();
-    console.log('state=>' + state);
+    //console.log('state=>' + JSON.stringify(state));
     // Save the initial route name
     routeNameRef.current = 'Home'; //getActiveRouteName(state);
+    remoteConfig().setConfigSettings({
+      isDeveloperModeEnabled: true,
+    });
+    remoteConfig()
+      .setDefaults({
+        awesome_title: 'Default Value for my Firebase Demo',
+      })
+      .then(() => remoteConfig().activate())
+      .then(() => remoteConfig().fetch())
+      .then((activated) => {
+        if (activated) {
+          console.log('Defaults set, fetched & activated!');
+        } else {
+          console.log('Defaults set, however activation failed.');
+        }
+      });
   }, []);
   return (
     <Provider store={store}>
-      {firebase.apps.length && <Text style={styles.module}>app()</Text>}
-      {analytics().native && <Text style={styles.module}>analytics()</Text>}
+      {/* {firebase.apps.length && <Text style={styles.module}>app()</Text>}
+      {analytics().native && <Text style={styles.module}>analytics()</Text>} */}
       <NavigationContainer
         ref={navigationRef}
-        onStateChange={state => {
-          console.log('screen_view' + JSON.stringify(state));
+        onStateChange={(state) => {
+          // LOG info on the current screen
+          // console.log('screen_view' + JSON.stringify(state));
           const previousRouteName = routeNameRef.current;
           const currentRouteName = getActiveRouteName(state);
 
